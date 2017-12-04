@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import ru.frank.messageHandler.MessageAnalyzer;
 import ru.frank.model.VkJsonMessage;
 
 import java.io.BufferedReader;
@@ -40,8 +41,28 @@ public class CallbackConfirmationController {
 
         String line = "";
 
-        if(incomingMessage != null){
+        if(incomingMessage != null && incomingMessage.getVkMessage().getBody() != null){
+            MessageAnalyzer analyzer = new MessageAnalyzer(incomingMessage);
             System.out.println(incomingMessage.toString());
+
+            try {
+                transportClient.post(vkApiMethod, analyzer.getBotAnswer(analyzer.getMessage()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Это работает, оставлю здесь.
+//            HttpClient client = HttpClientBuilder.create().build();
+//            HttpGet request = new HttpGet(vkApiMethod);
+//            HttpResponse response;
+//            try {
+//                response = client.execute(request);
+//                System.out.println("Response Code : "
+//                        + response.getStatusLine().getStatusCode());
+//            } catch (Exception ex){
+//                ex.printStackTrace();
+//            }
+        } else{
             HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet(vkApiMethod);
             HttpResponse response;
