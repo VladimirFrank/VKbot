@@ -37,19 +37,19 @@ public class CallbackConfirmationController {
 
     @RequestMapping(value = "/callbackConfirmation", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody void doChatBotResponse(@RequestBody VkJsonMessage incomingMessage){
+    public @ResponseBody void doChatBotResponse(@RequestBody String incomingMessage){
 
         String line = "";
 
-        if(incomingMessage != null && incomingMessage.getVkMessage().getBody() != null){
-            MessageAnalyzer analyzer = new MessageAnalyzer(incomingMessage);
-            System.out.println(incomingMessage.toString());
-
-            try {
-                transportClient.post(vkApiMethod, analyzer.getBotAnswer(analyzer.getMessage()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(incomingMessage != null){
+//            MessageAnalyzer analyzer = new MessageAnalyzer();
+//            System.out.println(incomingMessage.toString());
+//
+//            try {
+//                transportClient.post(vkApiMethod, analyzer.getBotAnswer(analyzer.getMessage()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
             // Это работает, оставлю здесь.
 //            HttpClient client = HttpClientBuilder.create().build();
